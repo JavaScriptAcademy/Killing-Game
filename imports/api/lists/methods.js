@@ -10,6 +10,8 @@ const LIST_ID_ONLY = new SimpleSchema({
   listId: { type: String },
 }).validator();
 
+//mdg:validated-method: This is a simple wrapper package for Meteor.methods.
+
 export const insert = new ValidatedMethod({
   name: 'lists.insert',
   validate: new SimpleSchema({}).validator(),
@@ -121,6 +123,10 @@ const LISTS_METHODS = _.pluck([
 
 if (Meteor.isServer) {
   // Only allow 5 list operations per connection per second
+
+  //If the accounts-base package is added to your project, there are default
+  //rules added to limit logins, new user registration and password resets
+  //calls to a limit of 5 requests per 10 seconds per connection
   DDPRateLimiter.addRule({
     name(name) {
       return _.contains(LISTS_METHODS, name);

@@ -64,6 +64,11 @@ Template.App_body.helpers({
       { userId: Meteor.userId() },
     ] });
   },
+  participants:[
+     { name: 'Cyrus 1' },
+     { name: 'Tom 2' },
+     { name: 'David 3' }
+  ],
   activeListClass(list) {
     const active = ActiveRoute.name('Lists.show')
       && FlowRouter.getParam('_id') === list._id;
@@ -119,7 +124,6 @@ Template.App_body.events({
       }
     }
   },
-
   'click .js-new-list'() {
     const listId = insert.call((err) => {
       if (err) {

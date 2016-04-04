@@ -53,6 +53,9 @@ Lists.publicFields = {
 
 Factory.define('list', Lists, {});
 
+//Collection helpers automatically sets up a transformation on your collections
+// using Meteor's Mongo.Collection transform option, allowing for simple models
+// with an interface that's similar to template helpers.
 Lists.helpers({
   // A list is considered to be private if it has a userId set
   isPrivate() {

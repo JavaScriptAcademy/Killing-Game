@@ -25,23 +25,26 @@
         {{/if}}
 
         <div class="list-todos">
-          <a class="js-new-list link-list-new">
+<!--           <a class="js-new-list link-list-new">
             <span class="icon-plus"></span>
             {{_ "New List"}}
+          </a> -->
+
+          <a class="js-new-list link-list-new">
+            <span> Participant List</span>
           </a>
 
-          {{#each list in lists}}
-            <a href="{{pathFor 'Lists.show' _id=list._id}}" title="{{list.name}}"
+          {{#each participant in participants}}
+<!--             <a href="{{pathFor 'Lists.show' _id=list._id}}" title="{{list.name}}"
                 class="list-todo {{activeListClass list}}">
               {{#if list.userId}}
                 <span class="icon-lock"></span>
               {{/if}}
 
-              {{#if list.incompleteCount}}
-                <span class="count-list">{{list.incompleteCount}}</span>
-              {{/if}}
-
               {{list.name}}
+            </a> -->
+            <a title="{{participant.name}}" class="list-todo">
+              {{participant.name}}
             </a>
           {{/each}}
         </div>

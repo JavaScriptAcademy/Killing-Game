@@ -8,7 +8,8 @@ import { $ } from 'meteor/jquery';
 import './lists-show.html';
 
 // Component used in the template
-import './todos-item.js';
+// import './todos-item.js';
+import './dialog.js'
 
 import {
   updateName,
@@ -164,10 +165,10 @@ Template.Lists_show.events({
     instance.$('.js-todo-new input').focus();
   },
 
-  'submit .js-todo-new'(event) {
+  'submit .js-input-symbol'(event) {
     event.preventDefault();
 
-    const $input = $(event.target).find('[type=text]');
+    const $input = $(event.target).find('textarea');
     if (!$input.val()) {
       return;
     }
