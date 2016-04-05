@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Lists } from '../../api/lists/lists.js';
 import { Todos } from '../../api/todos/todos.js';
+import { Chatrooms } from '../../api/chatroom/chatrooms.js';
 
 // if the database is empty on server start, create some sample data.
 Meteor.startup(() => {
@@ -63,5 +64,30 @@ Meteor.startup(() => {
         timestamp += 1; // ensure unique timestamp.
       });
     });
-  }
+  };
+
+  if (Chatrooms.find().count() === 0) {
+    const data = [
+      {
+        roomName: 'Killing-Game',
+        playerList: [
+          'Cyrus',
+          'Chris',
+          'Layne',
+          'Fiona',
+        ],
+        dialogs: [
+          'Game start',
+          'Come on',
+          'Chris is one of the murder',
+          'God Bless you',
+        ],
+      },
+    ];
+    let timestamp = (new Date()).getTime();
+
+    data.forEach((chatroom) => {
+      Chatrooms.insert(chatroom);
+    });
+  };
 });

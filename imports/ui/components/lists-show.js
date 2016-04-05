@@ -8,8 +8,7 @@ import { $ } from 'meteor/jquery';
 import './lists-show.html';
 
 // Component used in the template
-// import './todos-item.js';
-import './dialog.js'
+import './todos-item.js';
 
 import {
   updateName,

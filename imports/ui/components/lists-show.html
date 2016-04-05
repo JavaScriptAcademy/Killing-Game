@@ -57,7 +57,7 @@
     <div class="content-scrollable list-items">
       {{#if todosReady}}
       {{#each todo in todos}}
-       {{> chatroom_dialog (todoArgs todo)}}
+       {{> Dialog_item (todoArgs todo)}}
       {{else}}
       <div class="wrapper-message">
         <div class="title-message">{{_ 'No tasks here'}}</div>

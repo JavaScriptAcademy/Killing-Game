@@ -11,4 +11,5 @@ Template.app_rootRedirector.onCreated(() => {
   Meteor.defer(() => {
     FlowRouter.go('Lists.show', Lists.findOne());
   });
+
 });

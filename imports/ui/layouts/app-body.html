@@ -33,20 +33,14 @@
           <a class="js-new-list link-list-new">
             <span> Participant List</span>
           </a>
+          {{#if participants}}
+            {{#each participant in participants}}
+              <a title="{{participant}}" class="list-todo">
+                {{participant}}
+              </a>
+            {{/each}}
+          {{/if}}
 
-          {{#each participant in participants}}
-<!--             <a href="{{pathFor 'Lists.show' _id=list._id}}" title="{{list.name}}"
-                class="list-todo {{activeListClass list}}">
-              {{#if list.userId}}
-                <span class="icon-lock"></span>
-              {{/if}}
-
-              {{list.name}}
-            </a> -->
-            <a title="{{participant.name}}" class="list-todo">
-              {{participant.name}}
-            </a>
-          {{/each}}
         </div>
       </section>
 

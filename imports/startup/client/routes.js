@@ -6,6 +6,7 @@ import { AccountsTemplates } from 'meteor/useraccounts:core';
 import '../../ui/layouts/app-body.js';
 import '../../ui/pages/root-redirector.js';
 import '../../ui/pages/lists-show-page.js';
+import '../../ui/pages/chatrooms-show-page.js';
 import '../../ui/pages/app-not-found.js';
 
 // Import to override accounts templates
@@ -15,6 +16,14 @@ FlowRouter.route('/lists/:_id', {
   name: 'Lists.show',
   action() {
     BlazeLayout.render('App_body', { main: 'Lists_show_page' });
+  },
+});
+
+FlowRouter.route('/chatrooms/:_id', {
+  name: 'Chatrooms.show',
+  action() {
+    console.log('get router request to /chatrooms/:_id');
+    BlazeLayout.render('App_body', { main: 'Chatrooms_show_page' });
   },
 });
 

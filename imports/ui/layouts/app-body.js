@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import { Lists } from '../../api/lists/lists.js';
+import { Chatrooms } from '../../api/chatroom/chatrooms.js';
 import { Template } from 'meteor/templating';
 import { ActiveRoute } from 'meteor/zimme:active-route';
 import { FlowRouter } from 'meteor/kadira:flow-router';
@@ -34,12 +35,14 @@ Meteor.startup(() => {
 Template.App_body.onCreated(function appBodyOnCreated() {
   this.subscribe('lists.public');
   this.subscribe('lists.private');
+  this.subscribe('chatrooms');
 
   this.state = new ReactiveDict();
   this.state.setDefault({
     menuOpen: false,
     userMenuOpen: false,
   });
+
 });
 
 Template.App_body.helpers({
@@ -64,11 +67,12 @@ Template.App_body.helpers({
       { userId: Meteor.userId() },
     ] });
   },
-  participants:[
-     { name: 'Cyrus 1' },
-     { name: 'Tom 2' },
-     { name: 'David 3' }
-  ],
+  participants(){
+    var chatroom = Chatrooms.findOne({roomName:'Killing-Game'});
+    if(chatroom){
+      return chatroom.playerList;
+    }
+  },
   activeListClass(list) {
     const active = ActiveRoute.name('Lists.show')
       && FlowRouter.getParam('_id') === list._id;

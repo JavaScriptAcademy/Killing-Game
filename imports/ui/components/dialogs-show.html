@@ -1,0 +1,40 @@
+<template name="Dialogs_show">
+  <div class="page lists-show">
+    <nav class="js-title-nav">
+      {{#momentum plugin="fade"}}
+      <div class="nav-group">
+        <a href="#" class="js-menu nav-item">
+          <span class="icon-list-unordered" title={{_ 'Show Menu'}}></span>
+        </a>
+      </div>
+
+      <h1 class="js-edit-list title-page">
+        <span class="title-wrapper">{{chatroom.roomName}}</span>
+      </h1>
+      {{/momentum}}
+    </nav>
+
+    <div class="content-scrollable list-items">
+      {{#if dialogsReady}}
+      {{#each dialog in dialogs}}
+       {{> Dialog_item (dialogArgs dialog)}}
+      {{else}}
+      <div class="wrapper-message">
+        <div class="title-message">{{_ 'No dialogs here'}}</div>
+      </div>
+      {{/each}}
+      {{else}}
+      <div class="wrapper-message">
+        <div class="title-message">{{_ 'Loading room infomation...'}}</div>
+      </div>
+      {{/if}}
+    </div>
+    <div class="js-todo-new todo-new">
+      <form class="input-symbol js-input-symbol">
+        <textarea rows="4" cols="80" placeholder={{_ 'Type to add new sentences'}}></textarea>
+        <span class="icon-add js-todo-add"></span>
+        <button> Send </button>
+      </form>
+    </div>
+  </div>
+</template>

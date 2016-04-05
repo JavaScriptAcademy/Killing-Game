@@ -1,0 +1,9 @@
+<template name="Chatrooms_show_page">
+  {{#if dialogIdArray}}
+    {{#each dialogId in dialogIdArray}}
+      {{> Dialogs_show (dialogArgs dialogId)}}
+    {{/each}}
+  {{else}}
+    {{> App_notFound}}
+  {{/if}}
+</template>
