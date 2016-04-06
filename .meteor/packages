@@ -22,6 +22,12 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 reactive-dict
 meteortoys:allthings
 
+#acounts
 accounts-ui
 accounts-password
+accounts-base
+mizzao:user-status
+
+#bootstrap
 twbs:bootstrap
+

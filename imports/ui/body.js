@@ -3,16 +3,26 @@ import { Meteor } from 'meteor/meteor';
 import { Tasks } from '../api/tasks.js';
 import { ReactiveDict } from 'meteor/reactive-dict';
 import { Dialogs } from '../api/dialogs.js';
+import { Chatrooms } from '../api/chatrooms.js';
+
 import './body.html';
 import './task.js';
 import './chatroom/dialogItem.js';
 import './chatroom/importantEvent.js';
 import './chatroom/playerList.js';
+import '../startup/client/accounts-config.js';
 
 Template.body.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('tasks');
-  Meteor.subscribe('dialogs');
   this.state = new ReactiveDict();
+  this.autorun(() => {
+    Meteor.subscribe('chatrooms');
+    Meteor.subscribe('dialogs');
+    //add current user into playerlist
+    // var hasUser = Meteor.call('chatrooms.checkPlayer', Meteor.user());
+    // if(hasUser){
+    //   Meteor.call('chatrooms.addPlayer', Meteor.user());
+    // };
+  });
 });
 
 Template.body.helpers({
@@ -30,7 +40,10 @@ Template.body.helpers({
     return {
       dialog,
     }
-  }
+  },
+  chatroom(){
+    return Chatrooms.findOne({},{ sort: { createdAt: -1 } });
+  },
 });
 
 Template.body.events({
@@ -42,7 +55,7 @@ Template.body.events({
     const target = event.target;
     const text = target.text.value;
     // Insert a task into the collection
-    Meteor.call('dialogs.insert','1','Cyrus',text);
+    Meteor.call('dialogs.insert','1',Meteor.user().username,text);
     // Meteor.call('tasks.insert', text);
 
     // Clear form
