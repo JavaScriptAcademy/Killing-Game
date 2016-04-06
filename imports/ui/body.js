@@ -5,9 +5,6 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 
 import './body.html';
 import './task.js';
-import './chatroom/playerList.js';
-import './chatroom/importantEvent.js';
-import './chatroom/dialogItem.js';
 
 Template.body.onCreated(function bodyOnCreated() {
   Meteor.subscribe('tasks');
@@ -25,6 +22,7 @@ Template.body.helpers({
   incompleteCount(){
       return Tasks.find({ checked: { $ne: true } }).count();
   },
+
 
 });
 
