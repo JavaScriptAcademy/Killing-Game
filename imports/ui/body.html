@@ -1,0 +1,31 @@
+<body>
+  <div class="container">
+    <header>
+      <h1>Killing ({{incompleteCount}})</h1>
+      <span>{{> loginButtons}}</span>
+    </header>
+    <div class="left-panel col-md-3">
+      {{> PlayerList}}
+    </div>
+    <div class="dialog-container col-md-6">
+    <div class="dialog-items">
+      <ul>
+        {{#each tasks}}
+        {{> DialogItem}}
+        {{/each}}
+      </ul>
+    </div>
+    <form class="new-task input-symbol">
+      <textarea rows="4" cols="80" name="text" placeholder="Type to add new dialogs">
+      </textarea>
+      <button> Send </button>
+    </form>
+    </div>
+    <div class="right-panel col-md-2">
+      {{> ImportantEvent}}
+    </div>
+
+
+  </div>
+</body>
+

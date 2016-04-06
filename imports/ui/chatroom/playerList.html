@@ -1,0 +1,15 @@
+<template name="PlayerList">
+  <div class="list-players">
+    <a class="js-new-list">
+      <span> Participant List</span>
+    </a>
+    {{#if participants}}
+      {{#each participant in participants}}
+        <a title="{{participant.name}}" class="list-player">
+          {{participant.name}}
+        </a>
+      {{/each}}
+    {{/if}}
+
+  </div>
+</template>
