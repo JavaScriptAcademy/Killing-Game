@@ -12,7 +12,14 @@ Template.PlayerList.onCreated(function createPlayerlist(){
 
 Template.PlayerList.helpers({
  participants() {
-  console.log(Meteor.users.find({ "status.online": true }).count());
   return Meteor.users.find({ "status.online": true }).fetch();
  },
+ roomHolder(){
+  var holder = Meteor.users.findOne({ "status.online": true });
+  if(holder){
+    return holder;
+  }else{
+    return '';
+  }
+ }
 });

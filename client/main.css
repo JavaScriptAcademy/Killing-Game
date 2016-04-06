@@ -34,6 +34,9 @@ body {
   min-height: 100%;
   background: white;
 }
+.eventContainer{
+  width: 100%;
+}
 
 header {
   background: #d2edf4;

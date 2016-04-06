@@ -17,11 +17,7 @@ Template.body.onCreated(function bodyOnCreated() {
   this.autorun(() => {
     Meteor.subscribe('chatrooms');
     Meteor.subscribe('dialogs');
-    //add current user into playerlist
-    // var hasUser = Meteor.call('chatrooms.checkPlayer', Meteor.user());
-    // if(hasUser){
-    //   Meteor.call('chatrooms.addPlayer', Meteor.user());
-    // };
+    Meteor.subscribe('onlineusers');
   });
 });
 
@@ -60,5 +56,6 @@ Template.body.events({
 
     // Clear form
     target.text.value = '';
+
   },
 });

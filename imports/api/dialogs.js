@@ -12,13 +12,15 @@ if (Meteor.isServer) {
 
 Meteor.methods({
   'dialogs.insert'(roomNum, speaker, content){
-    console.log('Dialogs get insert request from client');
     Dialogs.insert({
       roomNum,
       speaker,
       content,
       createdAt: new Date(),
     });
+  },
+   'dialogs.removeAll'(){
+    Dialogs.remove({});
   },
 });
 

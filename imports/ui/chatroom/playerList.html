@@ -7,6 +7,9 @@
       {{#each participant in participants}}
         <a title="{{participant.username}}" class="list-player">
           {{participant.username}}
+          {{#if participant.username = roomHolder.username}}
+            <button class="delete">&times;</button>
+          {{/if}}
         </a>
       {{/each}}
     {{/if}}

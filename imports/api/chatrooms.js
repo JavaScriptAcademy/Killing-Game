@@ -14,32 +14,27 @@ Meteor.methods({
   'chatrooms.insert'(roomName){
     Chatrooms.insert({
       roomName,
+      'roomHolder': '',
+      'gameTime':'day',
       'roomStatus': 'Ready',
       'playerList': [],
     });
   },
-  'chatrooms.checkPlayer'(player){
-     console.log('playerlist',Chatrooms.findOne({}).playerList);
-     console.log('player',player);
-     if(Chatrooms.findOne({}).playerList.indexOf(player) > -1){
-      return true;
-     }else{
-      return false;
-     }
-  }
-  // 'chatrooms.addPlayer'(player){
-  //   console.log('playerlist',Chatrooms.findOne({}).playerList);
-  //   console.log('player',player);
-  //   if(Chatrooms.findOne({}).playerList.indexOf(player) < 0){
-  //     Chatrooms.update({},{ $push: { 'playerList' : player }});
-  //   }else{
+  'chatrooms.removeAll'(){
+    Chatrooms.remove({});
+  },
+  'chatrooms.setRoomHolder'(player){
+    Chatrooms.update({},{ $set: {roomHoldr:player}});
+  },
+  'chatrooms.setStatus'(status){
+     Chatrooms.update({},{$set:{roomStatus:status}});
+  },
+  'chatrooms.setTime'(time){
+   Chatrooms.update({},{$set:{gameTime:time}});
+  },
+  'chatrooms.setRolesToPlayer'(){
 
-  //   }
-  // },
-  // 'chatrooms.removePlayer'(player){
-  //   console.log('remove player',player);
-  //   Chatrooms.update({},{ $pull: { 'playerList' : player }});
-  // }
+  },
 });
 
 
