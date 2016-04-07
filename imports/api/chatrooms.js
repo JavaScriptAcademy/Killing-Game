@@ -32,8 +32,19 @@ Meteor.methods({
   'chatrooms.setTime'(time){
    Chatrooms.update({},{$set:{gameTime:time}});
   },
-  'chatrooms.setRolesToPlayer'(){
-
+  'chatrooms.insertPlayer'(username,role){
+    const player = {
+      username,
+      role,
+      status:'alive',
+    };
+    Chatrooms.update({},{ $push: { 'playerList' : player }});
+  },
+  'chatrooms.insertPlayers'(players){
+    console.log('players',players);
+    players.forEach((player) =>{
+      Chatrooms.update({},{ $push: { 'playerList' : player }});
+    });
   },
 });
 
