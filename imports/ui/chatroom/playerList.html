@@ -3,16 +3,35 @@
     <a class="js-new-list">
       <span> Participant List</span>
     </a>
-    {{#if participants}}
-      {{#each participant in participants}}
-        <a title="{{participant.username}}" class="list-player">
-          {{participant.username}}
-          {{#if participant.username = roomHolder.username}}
+    {{#if gameStart}}
+       {{#each participant in participants}}
+        <a title="participants:{{participant.username}}" class="list-player" name="participants" >
+          <span name="name">{{participant.username}}</span>
+          {{#if showMurder}}
+            {{#if isMurder participant.role}}
+              <span name="murder" style="color:red">({{participant.role}})</span>
+            {{/if}}
+          {{/if}}
+          {{#if showPolice}}
+            {{#if isPolice participant.role}}
+              <span name="murder" style="color:green">({{participant.role}})</span>
+            {{/if}}
+          {{/if}}
+
+          {{#if isRoomHolder participant.username}}
+            <button class="delete">&times;</button>
+          {{/if}}
+        </a>
+      {{/each}}
+    {{else}}
+      {{#each onlineUser in onlineUsers}}
+        <a title="onlineUser:{{onlineUser.username}}" class="list-player" name="onlineUser">
+          {{onlineUser.username}}
+          {{#if isRoomHolder onlineUser.username}}
             <button class="delete">&times;</button>
           {{/if}}
         </a>
       {{/each}}
     {{/if}}
-
   </div>
 </template>
