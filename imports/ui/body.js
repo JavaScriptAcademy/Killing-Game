@@ -10,6 +10,7 @@ import './task.js';
 import './chatroom/dialogItem.js';
 import './chatroom/importantEvent.js';
 import './chatroom/playerList.js';
+import './vote/vote.js';
 import '../startup/client/accounts-config.js';
 
 Template.body.onCreated(function bodyOnCreated() {

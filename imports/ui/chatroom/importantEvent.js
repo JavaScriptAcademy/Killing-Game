@@ -1,6 +1,7 @@
 import './importantEvent.html';
 import { Chatrooms } from '../../api/chatrooms.js';
 import { Dialogs } from '../../api/dialogs.js';
+import { Meteor } from  'meteor/meteor';
 
 Template.ImportantEvent.onCreated(function eventCreated(){
   this.autorun(() => {
@@ -30,7 +31,6 @@ Template.ImportantEvent.events({
     Meteor.call('chatrooms.setStatus','Start');
     Meteor.call('dialogs.insert','','System','Game start!');
     //set role to player
-    debugger;
     let players = Meteor.users.find({ "status.online": true }).fetch();
     let playerNum = players.length;
     let murderNum = policeNum = parseInt(playerNum/3);

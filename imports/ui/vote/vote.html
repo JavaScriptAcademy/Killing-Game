@@ -1,0 +1,15 @@
+<TEMPLATE name="Vote">
+  <div class="voteContainer">
+    <h3>Vote a player</h3>
+    <div class="list-group">
+      {{#each player in players}}
+      <a class="list-group-item">
+        <input type="radio" name="player" value="{{player.username}}"/>
+        <span>{{player.username}}</span>
+        <span class="score">{{playerScore player.username}}</span>
+      </a>
+      {{/each}}
+    </div>
+    <button class="click-vote">Vote</button>
+  </div>
+</TEMPLATE>
