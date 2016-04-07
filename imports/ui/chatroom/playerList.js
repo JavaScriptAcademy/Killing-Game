@@ -44,8 +44,9 @@ Template.PlayerList.helpers({
   },
  gameStart(){
   if(Chatrooms.findOne({})){
-    if(Chatrooms.findOne({}).roomStatus === 'Start')
-    return true;
+    if(Chatrooms.findOne({}).roomStatus === 'Start'){
+      return true;
+    }
   }else{
     return false;
   }
