@@ -76,5 +76,6 @@ Template.ImportantEvent.events({
     }
     Meteor.call('chatrooms.setTime',flag);
     Meteor.call('dialogs.insert','','System','End of '+time+' !');
+    Router.go('/vote');
   }
 });

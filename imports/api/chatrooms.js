@@ -5,7 +5,6 @@ export const Chatrooms = new Mongo.Collection('chatrooms');
 
 // export const Scores = new Mongo.Collection('scores', {connection: null});
 
-
 if (Meteor.isServer) {
   // This code only runs on the server
   Meteor.publish('chatrooms', function dialogsPublication() {
@@ -14,7 +13,7 @@ if (Meteor.isServer) {
   //  Meteor.publish('scores', function scoresPublication() {
   //   return Scores.find({});
   // });
-},
+}
 
 Meteor.methods({
   'chatrooms.insert'(roomName){

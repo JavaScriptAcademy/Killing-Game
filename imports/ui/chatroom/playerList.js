@@ -18,7 +18,6 @@ Template.PlayerList.onCreated(function createPlayerlist(){
     };
   };
   this.getCurrentUserRole = () => {
-    debugger;
     let chatroom = Chatrooms.findOne({});
     let currentUser = Meteor.user();
     if(chatroom){

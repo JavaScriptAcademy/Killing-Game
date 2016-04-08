@@ -40,6 +40,6 @@ Template.Vote.events({
   'click .click-vote'(event){
     const playerName = $("input[name='player']:checked").val();
     Meteor.call('scores.addScore', playerName);
-    console.log(Scores.find({}).fetch());
+    Router.go('/');
   }
 });
