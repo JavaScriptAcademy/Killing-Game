@@ -19,7 +19,7 @@ Meteor.startup(function initData(){
     {
       roomNum: '1',
       speaker: 'Chris',
-      content: 'I think murder is ***',
+      content: 'I think murderer is ***',
     },
     {
       roomNum: '2',
@@ -39,5 +39,7 @@ Meteor.startup(function initData(){
   if(Chatrooms.find().count() > 0){
     Meteor.call('chatrooms.removeAll');
     Meteor.call('chatrooms.insert','Killing Game Room 1');
-  }
+  };
+
+  Meteor.call('scores.removeAll');
 });

@@ -6,7 +6,9 @@ import './body.html';
 import './chatroom/importantEvent.js';
 import './chatroom/playerList.js';
 import './chatroom/dialogShow.js';
+import './chatroom/waiting.js';
 import './vote/vote.js';
+
 import '../startup/client/accounts-config.js';
 
 Template.Body.onCreated(function bodyOnCreated() {

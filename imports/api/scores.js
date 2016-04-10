@@ -9,11 +9,13 @@ if (Meteor.isServer) {
   });
 }
 Meteor.methods({
-  'scores.addScore'(playerName){
-   Scores.upsert({username:playerName},{$inc:{score:1}});
+  'scores.addScore'(section, playerName){
+   Scores.upsert({
+    section:section,
+    username:playerName
+  },{$inc:{score:1}});
   },
   'scores.removeAll'(){
     Scores.remove({});
   }
-
 });

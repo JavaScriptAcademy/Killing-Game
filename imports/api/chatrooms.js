@@ -21,7 +21,7 @@ Meteor.methods({
       roomName,
       'roomHolder': '',
       'gameTime':'day',
-      'roomStatus': 'Ready',
+      'roomStatus': 'ready',
       'playerList': [],
     });
   },
@@ -37,11 +37,31 @@ Meteor.methods({
   'chatrooms.setTime'(time){
    Chatrooms.update({},{$set:{gameTime:time}});
   },
+  'chatrooms.clearVoted'(){
+    let playerList = Chatrooms.findOne({}).playerList;
+    playerList.forEach(function (player) {
+      playerList.voted = 'false';
+    });
+    Chatrooms.update({},{$set:{playerList:playerList}});
+  },
+  'chatrooms.setPlayerStatus'(playername,param,voted){
+    let playerList = Chatrooms.findOne({}).playerList;
+    debugger;
+    playerList.forEach(function (player) {
+      if(player.username === playername){
+        console.log('set voted of player',player.username);
+        debugger;
+        player[param] = voted;
+      }
+    });
+    Chatrooms.update({},{$set:{playerList:playerList}});
+  },
   'chatrooms.insertPlayer'(username,role){
     const player = {
       username,
       role,
       status:'alive',
+      voted:'false',
     };
     Chatrooms.update({},{ $push: { 'playerList' : player }});
   },

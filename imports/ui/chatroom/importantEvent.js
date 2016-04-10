@@ -12,7 +12,7 @@ Template.ImportantEvent.onCreated(function eventCreated(){
 Template.ImportantEvent.helpers({
   gameStart(){
     if(Chatrooms.findOne({})){
-      return Chatrooms.findOne({}).roomStatus === 'Start';
+      return Chatrooms.findOne({}).roomStatus !== 'ready';
     }else{
       return '';
     }
@@ -37,11 +37,11 @@ Template.ImportantEvent.events({
     let index = 0;
     let playerList = [];
     for(;index<murderNum;index++){
-      // Meteor.call('chatrooms.insertPlayer',players[index].username,'murder');
       let newPlayer = {
         username:players[index].username,
-        role:'murder',
+        role:'murderer',
         status:'alive',
+        voted:'false',
       };
       playerList.push(newPlayer);
     };
@@ -51,6 +51,7 @@ Template.ImportantEvent.events({
         username:players[index].username,
         role:'police',
         status:'alive',
+        voted:'false',
       };
       playerList.push(newPlayer);
     }
@@ -60,6 +61,7 @@ Template.ImportantEvent.events({
         username:players[index].username,
         role:'citizen',
         status:'alive',
+        voted:'false',
       };
       playerList.push(newPlayer);
     }
@@ -76,6 +78,31 @@ Template.ImportantEvent.events({
     }
     Meteor.call('chatrooms.setTime',flag);
     Meteor.call('dialogs.insert','','System','End of '+time+' !');
-    Router.go('/vote');
+    Meteor.call('chatrooms.setStatus','vote');
+  }
+});
+
+//route to vote page when vote begins. citizen will be routed to waiting page
+Tracker.autorun(function () {
+  let chatroom = Chatrooms.findOne({});
+  let currentuser = Meteor.user();
+  if(chatroom){
+    let status = chatroom.roomStatus;
+    if(status === 'vote'){
+      let players = chatroom.playerList;
+      let currentPlayer = players.filter((player) => {
+        return player.username === currentuser.username;
+      });
+
+      if(currentPlayer[0].status === 'victim'||currentPlayer[0].status === 'suspect'){
+        //if you are dead, you can do nothing but waiting.
+      }else{
+        if(chatroom.gameTime==='day'&&currentPlayer[0].role === 'citizen'){
+          Router.go('/waiting');
+        }else{
+          Router.go('/vote');
+        }
+      }
+    }
   }
 });

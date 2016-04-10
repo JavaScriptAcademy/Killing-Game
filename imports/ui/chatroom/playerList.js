@@ -43,7 +43,7 @@ Template.PlayerList.helpers({
   },
  gameStart(){
   if(Chatrooms.findOne({})){
-    if(Chatrooms.findOne({}).roomStatus === 'Start')
+    if(Chatrooms.findOne({}).roomStatus !== 'ready')
     return true;
   }else{
     return false;
@@ -57,16 +57,16 @@ Template.PlayerList.helpers({
     return false;
   }
  },
- showMurder(){
+ showMurderer(){
   const instance = Template.instance();
-  return instance.getCurrentUserRole() === 'murder';
+  return instance.getCurrentUserRole() === 'murderer';
  },
  showPolice(){
   const instance = Template.instance();
   return instance.getCurrentUserRole() === 'police';
  },
- isMurder(role){
-  return role === 'murder';
+ isMurderer(role){
+  return role === 'murderer';
  },
  isPolice(role){
   return role === 'police';
