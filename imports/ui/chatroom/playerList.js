@@ -18,7 +18,6 @@ Template.PlayerList.onCreated(function createPlayerlist(){
     };
   };
   this.getCurrentUserRole = () => {
-    debugger;
     let chatroom = Chatrooms.findOne({});
     let currentUser = Meteor.user();
     if(chatroom){
@@ -44,9 +43,8 @@ Template.PlayerList.helpers({
   },
  gameStart(){
   if(Chatrooms.findOne({})){
-    if(Chatrooms.findOne({}).roomStatus === 'Start'){
-      return true;
-    }
+    if(Chatrooms.findOne({}).roomStatus !== 'ready')
+    return true;
   }else{
     return false;
   }
@@ -59,16 +57,16 @@ Template.PlayerList.helpers({
     return false;
   }
  },
- showMurder(){
+ showMurderer(){
   const instance = Template.instance();
-  return instance.getCurrentUserRole() === 'murder';
+  return instance.getCurrentUserRole() === 'murderer';
  },
  showPolice(){
   const instance = Template.instance();
   return instance.getCurrentUserRole() === 'police';
  },
- isMurder(role){
-  return role === 'murder';
+ isMurderer(role){
+  return role === 'murderer';
  },
  isPolice(role){
   return role === 'police';

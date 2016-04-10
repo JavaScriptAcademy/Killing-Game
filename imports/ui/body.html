@@ -1,4 +1,4 @@
-<body>
+<TEMPLATE name="Body">
   <div class="container">
     <header>
       <h1>{{chatroom.roomName}}</h1>
@@ -8,22 +8,11 @@
       {{> PlayerList}}
     </div>
     <div class="dialog-container col-md-6">
-    <div class="dialog-items">
-      <ul>
-        {{#each dialog in dialogs}}
-        {{> DialogItem (dialogItemArgs dialog)}}
-        {{/each}}
-      </ul>
-    </div>
-    <form class="new-task input-symbol" id="dialogForm">
-      <textarea rows="4" cols="80" name="text" placeholder="Type to add new dialogs" form="dialogForm">
-      </textarea>
-      <button> Send </button>
-    </form>
+      {{> yield}}
     </div>
     <div class="right-panel col-md-2">
       {{> ImportantEvent}}
     </div>
   </div>
-</body>
+</TEMPLATE>
 

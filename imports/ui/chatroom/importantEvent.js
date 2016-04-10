@@ -1,6 +1,7 @@
 import './importantEvent.html';
 import { Chatrooms } from '../../api/chatrooms.js';
 import { Dialogs } from '../../api/dialogs.js';
+import { Meteor } from  'meteor/meteor';
 
 Template.ImportantEvent.onCreated(function eventCreated(){
   this.autorun(() => {
@@ -11,7 +12,7 @@ Template.ImportantEvent.onCreated(function eventCreated(){
 Template.ImportantEvent.helpers({
   gameStart(){
     if(Chatrooms.findOne({})){
-      return Chatrooms.findOne({}).roomStatus === 'Start';
+      return Chatrooms.findOne({}).roomStatus !== 'ready';
     }else{
       return '';
     }
@@ -30,18 +31,17 @@ Template.ImportantEvent.events({
     Meteor.call('chatrooms.setStatus','Start');
     Meteor.call('dialogs.insert','','System','Game start!');
     //set role to player
-    debugger;
     let players = Meteor.users.find({ "status.online": true }).fetch();
     let playerNum = players.length;
     let murderNum = policeNum = parseInt(playerNum/3);
     let index = 0;
     let playerList = [];
     for(;index<murderNum;index++){
-      // Meteor.call('chatrooms.insertPlayer',players[index].username,'murder');
       let newPlayer = {
         username:players[index].username,
-        role:'murder',
+        role:'murderer',
         status:'alive',
+        voted:'false',
       };
       playerList.push(newPlayer);
     };
@@ -51,6 +51,7 @@ Template.ImportantEvent.events({
         username:players[index].username,
         role:'police',
         status:'alive',
+        voted:'false',
       };
       playerList.push(newPlayer);
     }
@@ -60,6 +61,7 @@ Template.ImportantEvent.events({
         username:players[index].username,
         role:'citizen',
         status:'alive',
+        voted:'false',
       };
       playerList.push(newPlayer);
     }
@@ -76,5 +78,29 @@ Template.ImportantEvent.events({
     }
     Meteor.call('chatrooms.setTime',flag);
     Meteor.call('dialogs.insert','','System','End of '+time+' !');
+    Meteor.call('chatrooms.setStatus','vote');
+  }
+});
+
+//route to vote page when vote begins. citizen will be routed to waiting page
+Tracker.autorun(function () {
+  let chatroom = Chatrooms.findOne({});
+  let currentuser = Meteor.user();
+  if(chatroom){
+    let status = chatroom.roomStatus;
+    if(status === 'vote'){
+      let players = chatroom.playerList;
+      let currentPlayer = players.filter((player) => {
+        return player.username === currentuser.username;
+      });
+      //only player alive can vote
+      if(currentPlayer[0].status === 'alive'){
+        if(chatroom.gameTime==='day'&&currentPlayer[0].role === 'citizen'){
+          Router.go('/waiting');
+        }else{
+          Router.go('/vote');
+        }
+      }
+    }
   }
 });
