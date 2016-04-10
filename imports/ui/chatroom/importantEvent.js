@@ -3,10 +3,26 @@ import { Chatrooms } from '../../api/chatrooms.js';
 import { Dialogs } from '../../api/dialogs.js';
 import { Meteor } from  'meteor/meteor';
 
+let countdown;
+
 Template.ImportantEvent.onCreated(function eventCreated(){
   this.autorun(() => {
     Meteor.subscribe('onlineusers');
   });
+  countdown = new ReactiveCountdown(30);
+  countdown.start(function() {
+    console.log('time ends');
+    let time = Chatrooms.findOne({}).gameTime;
+    if(time === 'day'){
+      Meteor.call('chatrooms.setStatus','vote');
+    }
+  });
+});
+
+Template.ImportantEvent.onRendered(function listsShowPageOnRendered() {
+  console.log('entered onRendered');
+  // countdown.stop(()=>);
+
 });
 
 Template.ImportantEvent.helpers({
@@ -23,6 +39,9 @@ Template.ImportantEvent.helpers({
     }else{
       return '';
     }
+  },
+  getCountdown() {
+   return countdown.get();
   },
 });
 
@@ -66,20 +85,8 @@ Template.ImportantEvent.events({
       playerList.push(newPlayer);
     }
     Meteor.call('chatrooms.insertPlayers',playerList);
-  },
-  'click #switchButton'(event){
-    let time = Chatrooms.findOne({}).gameTime;
-    console.log('time',time);
-    let flag = 'day';
-    if(time === 'night'){
-      flag = 'day';
-    }else{
-      flag = 'night';
-    }
-    Meteor.call('chatrooms.setTime',flag);
-    Meteor.call('dialogs.insert','','System','End of '+time+' !');
     Meteor.call('chatrooms.setStatus','vote');
-  }
+  },
 });
 
 //route to vote page when vote begins. citizen will be routed to waiting page
@@ -93,9 +100,10 @@ Tracker.autorun(function () {
       let currentPlayer = players.filter((player) => {
         return player.username === currentuser.username;
       });
+
       //only player alive can vote
-      if(currentPlayer[0].status === 'alive'){
-        if(chatroom.gameTime==='day'&&currentPlayer[0].role === 'citizen'){
+      if(currentPlayer[0]&&currentPlayer[0].status === 'alive'){
+        if(chatroom.gameTime==='night'&&currentPlayer[0].role === 'citizen'){
           Router.go('/waiting');
         }else{
           Router.go('/vote');

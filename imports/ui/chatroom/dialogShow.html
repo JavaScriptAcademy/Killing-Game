@@ -1,6 +1,6 @@
 <template name="DialogShow">
-  <div class="dialog-items">
-    <ul>
+  <div data-spy="scroll" class="dialog-items">
+    <ul class="list-group">
       {{#each dialog in dialogs}}
       {{> DialogItem (dialogItemArgs dialog)}}
       {{/each}}
@@ -9,6 +9,6 @@
   <form class="new-task input-symbol" id="dialogForm">
     <textarea rows="4" cols="80" name="text" placeholder="Type to add new dialogs" form="dialogForm">
     </textarea>
-    <button> Send </button>
+    <button class="btn btn-success btn-block"> Send </button>
   </form>
 </template>

@@ -1,20 +1,25 @@
 <template name="ImportantEvent">
-  <div class="eventContainer">
+  <div class="eventContainer panel panel-warning">
     {{#if gameStart}}
       {{#if daytime}}
-      <h4 class="text-primary">Now is the daytime.</h4>
-      <p> Everyone has the chance to say something.</p>
-      <button id="switchButton">End Daytime.</button>
+      <div class="panel-heading text-primary">Daytime.</div>
+      <div class="panel-body">
+        <p> Everyone has the chance to say something.</p>
+        <big>{{getCountdown}}</big> seconds left of daytime.
+      </div>
       {{else}}
-      <h4 class="text-primary">Now is the night.</h4>
-      <p>*If you are a <mark>murderer</mark>, you should choose someone to kill.</p>
-      <p>*If you are a <mark>policeman</mark>, you should choose someone to checkout.</p>
-      <p>*If you are a <mark>citizen</mark>, just keep silence.</p>
-      <button id="switchButton">End Night.</button>
+      <div class="panel-heading text-primary">Night.</div>
+      <div class="panel-body">
+        <p>*If you are a <mark>murderer</mark>, you should choose someone to kill.</p>
+        <p>*If you are a <mark>policeman</mark>, you should choose someone to checkout.</p>
+        <p>*If you are a <mark>citizen</mark>, just keep silence.</p>
+      </div>
       {{/if}}
     {{else}}
-      <h4 class="text-primary">Please press the 'start' button to start game.</h4>
-      <button id="startButton">Game start</button>
+      <div class="panel-heading text-primary">Press the button to start</div>
+      <div class="panel-body">
+        <button class="btn btn-primary btn-lg" id="startButton">Game start</button>
+      </div>
     {{/if}}
   </div>
 </template>

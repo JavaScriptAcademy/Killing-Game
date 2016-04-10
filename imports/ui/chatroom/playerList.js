@@ -20,14 +20,27 @@ Template.PlayerList.onCreated(function createPlayerlist(){
   this.getCurrentUserRole = () => {
     let chatroom = Chatrooms.findOne({});
     let currentUser = Meteor.user();
-    if(chatroom){
+    if(chatroom&&currentUser){
       let playerFind = chatroom.playerList.filter(function(player){
         return player.username === currentUser.username;
       });
-      return playerFind[0].role;
+      if(playerFind[0])
+        return playerFind[0].role;
     }else{
       return '';
     }
+  };
+  this.isDead = (playername) => {
+    let chatroom = Chatrooms.findOne({});
+    if(chatroom){
+     let playerFind = chatroom.playerList.filter(function(player){
+      return player.username === playername;
+      });
+     if(playerFind[0]&&playerFind[0].status !== 'alive'){
+      return true;
+     }
+    }
+    return false;
   };
 });
 
@@ -56,6 +69,10 @@ Template.PlayerList.helpers({
   }else{
     return false;
   }
+ },
+ isDead(username) {
+  const instance = Template.instance();
+  return instance.isDead(username);
  },
  showMurderer(){
   const instance = Template.instance();

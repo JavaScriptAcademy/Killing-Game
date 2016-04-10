@@ -21,10 +21,10 @@ Template.Vote.onCreated(function createVote() {
       let playerFind = chatroom.playerList.filter(function(player){
         return player.username === currentUser.username;
       });
-      return playerFind[0].role;
-    }else{
-      return '';
+      if(playerFind[0])
+        return playerFind[0].role;
     }
+    return '';
   };
   this.isEveryoneVoted = (filter) => {
     let chatroom = Chatrooms.findOne({});
@@ -112,6 +112,7 @@ Template.Vote.onCreated(function createVote() {
       broadcastPlayers(getAllRole(playerList, 'citizen'),'citizens');
     }
     Meteor.call('chatrooms.setStatus', 'over');
+
     function getAllRole(players, role){
       return players.filter( (player) => {
         return player.role === role;
@@ -148,7 +149,7 @@ Template.Vote.helpers({
      const gameTime = Chatrooms.findOne({}).gameTime;
      const instance = Template.instance();
      let currentUserRole = instance.getCurrentUserRole();
-     if(gameTime === 'night'){
+     if(gameTime === 'day'){
        score = Scores.findOne({
         username:playerName
       });
@@ -160,7 +161,7 @@ Template.Vote.helpers({
         });
       }
     };
-    if(socre){
+    if(score){
       return score.score;
     }
   }
@@ -180,7 +181,7 @@ Template.Vote.events({
     * if gameTime = day, set section= day
     * if gameTime = night, set section = police/murder
     */
-    if(gameTime === 'night'){//daytime vote result
+    if(gameTime === 'day'){//daytime vote result
       Meteor.call('scores.addScore', gameTime, playerName);
     }else{
       Meteor.call('scores.addScore', currentUserRole, playerName);
@@ -189,18 +190,17 @@ Template.Vote.events({
 
     //check whether all players have voted
     //day time, everyone has the right to vote
-    //gameTime has been set to the opposite one()
-    if(gameTime === 'night'&&instance.isEveryoneVoted()){
-      let suspect = Scores.find({section:'night'},{ sort: { score: -1 } }).fetch()[0];
+    if(gameTime === 'day'&&instance.isEveryoneVoted()){
+      let suspect = Scores.find({section:'day'},{ sort: { score: -1 } }).fetch()[0];
       //if it is daytime, set status to suspect
       //gameTime has been set to the opposite one
       Meteor.call('chatrooms.setPlayerStatus',suspect.username,'status','suspect');
       Meteor.call('dialogs.insert','','System',suspect.username+' is marked as a suspect.');
       instance.setDefaultStatus();
+      Meteor.call('chatrooms.setTime','night');
     }
-    //gameTime has been set to the opposite one
-    if(gameTime === 'day'){
       //end of vote in the night
+    if(gameTime === 'night'){
       if(instance.isEveryoneVoted(instance.murdererFilter)
         &&instance.isEveryoneVoted(instance.policeFilter)){
 
@@ -213,10 +213,10 @@ Template.Vote.events({
         Meteor.call('dialogs.insert','','System',victim[0].username+' is killed by murderers.');
 
         instance.setDefaultStatus();
+        Meteor.call('chatrooms.setTime','day');
       }
     }
     //check whether game is over
-    debugger;
     if(instance.isGameOver()){
       instance.gameOver();
     }
@@ -228,7 +228,7 @@ Tracker.autorun(function () {
   let chatroom = Chatrooms.findOne({});
   if(chatroom){
     let status = chatroom.roomStatus;
-    if(status === 'dialog'){
+    if(status === 'dialog' || status === 'over'){
       Router.go('/');
     }
   }

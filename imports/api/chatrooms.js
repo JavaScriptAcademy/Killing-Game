@@ -20,7 +20,7 @@ Meteor.methods({
     Chatrooms.insert({
       roomName,
       'roomHolder': '',
-      'gameTime':'day',
+      'gameTime':'night',//dafault:night
       'roomStatus': 'ready',
       'playerList': [],
     });

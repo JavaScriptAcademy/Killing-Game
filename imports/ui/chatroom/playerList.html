@@ -1,20 +1,28 @@
 <template name="PlayerList">
-  <div class="list-players">
-    <a class="js-new-list">
-      <span> Participant List</span>
+  <div class="list-players list-group">
+    <a class="participantLabel">
+      <span class="label label-warning"> Participant List</span>
     </a>
     {{#if gameStart}}
        {{#each participant in participants}}
-        <a title="participants:{{participant.username}}" class="list-player" name="participants" >
-          <span name="name">{{participant.username}}</span>
+        <a title="participants:{{participant.username}}" class="list-player list-group-item" name="participants" >
+          <span name="name">
+          {{#if isDead participant.username}}
+            <del>
+              {{participant.username}}
+            </del>
+          {{else}}
+           {{participant.username}}
+          {{/if}}
+          </span>
           {{#if showMurderer}}
             {{#if isMurderer participant.role}}
-              <span name="murderer" style="color:red">({{participant.role}})</span>
+              <span name="murderer" class="list-group-item-danger">({{participant.role}})</span>
             {{/if}}
           {{/if}}
           {{#if showPolice}}
             {{#if isPolice participant.role}}
-              <span name="murderer" style="color:green">({{participant.role}})</span>
+              <span name="murderer" class="list-group-item-info">({{participant.role}})</span>
             {{/if}}
           {{/if}}
 
@@ -25,7 +33,7 @@
       {{/each}}
     {{else}}
       {{#each onlineUser in onlineUsers}}
-        <a title="onlineUser:{{onlineUser.username}}" class="list-player" name="onlineUser">
+        <a title="onlineUser:{{onlineUser.username}}" class="list-player list-group-item" name="onlineUser">
           {{onlineUser.username}}
           {{#if isRoomHolder onlineUser.username}}
             <button class="delete">&times;</button>

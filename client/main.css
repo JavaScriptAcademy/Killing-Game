@@ -16,10 +16,12 @@ body {
 
   font-size: 14px;
 }
+
 .dialog-items{
-  height:400px;
+  height:380px;
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
+  border:5px ridge  #04C8E4
 }
 .dialog-item{
   display: flex;
@@ -32,12 +34,11 @@ body {
   margin: 0 auto;
   min-height: 100%;
   background: white;
-  padding: 0 auto;
+  padding: 0;
 }
 .eventContainer{
   width: 100%;
 }
-
 .score{
   float: right;
   color: red;
@@ -46,7 +47,8 @@ body {
 header {
   background: #d2edf4;
   background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
-  padding: 20px 15px 15px 15px;
+  padding: 13px 15px 5px 15px;
+  margin-bottom: 15px;
   position: relative;
 }
 
@@ -54,8 +56,12 @@ header {
   display: block;
 }
 
-h1 {
+.label-warning{
   font-size: 1.5em;
+}
+h1 {
+  font-size: 3.0em;
+  color:green;
   margin: 0;
   margin-bottom: 10px;
   display: inline-block;
@@ -100,12 +106,9 @@ ul {
 li {
   position: relative;
   list-style: none;
-  padding: 15px;
-  border-bottom: #eee solid 1px;
-}
+  padding: 5px 15px 5px 15px;
 
-li .text {
-  margin-left: 10px;
+  border-bottom: #eee solid 1px;
 }
 
 li.checked {
