@@ -40,17 +40,15 @@ Meteor.methods({
   'chatrooms.clearVoted'(){
     let playerList = Chatrooms.findOne({}).playerList;
     playerList.forEach(function (player) {
-      playerList.voted = 'false';
+      player.voted = 'false';
     });
-    Chatrooms.update({},{$set:{playerList:playerList}});
+    Chatrooms.update({},{ $set: { playerList: playerList}});
   },
   'chatrooms.setPlayerStatus'(playername,param,voted){
     let playerList = Chatrooms.findOne({}).playerList;
-    debugger;
     playerList.forEach(function (player) {
       if(player.username === playername){
         console.log('set voted of player',player.username);
-        debugger;
         player[param] = voted;
       }
     });

@@ -93,10 +93,8 @@ Tracker.autorun(function () {
       let currentPlayer = players.filter((player) => {
         return player.username === currentuser.username;
       });
-
-      if(currentPlayer[0].status === 'victim'||currentPlayer[0].status === 'suspect'){
-        //if you are dead, you can do nothing but waiting.
-      }else{
+      //only player alive can vote
+      if(currentPlayer[0].status === 'alive'){
         if(chatroom.gameTime==='day'&&currentPlayer[0].role === 'citizen'){
           Router.go('/waiting');
         }else{
