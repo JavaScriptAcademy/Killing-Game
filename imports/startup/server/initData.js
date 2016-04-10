@@ -7,24 +7,9 @@ Meteor.startup(function initData(){
     Meteor.call('dialogs.removeAll');
     const data = [
     {
-      roomNum: '1',
-      speaker: 'Cyrus',
-      content: 'Game Start',
-    },
-    {
-      roomNum: '1',
-      speaker: 'Fiona',
-      content: 'Nice game',
-    },
-    {
-      roomNum: '1',
-      speaker: 'Chris',
-      content: 'I think murderer is ***',
-    },
-    {
-      roomNum: '2',
-      speaker: 'Cyrus',
-      content: 'No one will be killed',
+      roomNum: '',
+      speaker: 'System',
+      content: 'Welcome to killing game',
     },
     ];
     data.forEach((dialog) => {

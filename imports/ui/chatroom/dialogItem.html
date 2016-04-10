@@ -1,5 +1,11 @@
 <template name="DialogItem">
   <li class="list-group-item  dialog-item">
-    <span class="text " value="{{dialog.speaker}}:{{dialog.content}}">{{dialog.speaker}}:{{dialog.content}}</span>
+    <span class="text " value="{{dialog.speaker}}:{{dialog.content}}">
+      {{#if isSystemDialog dialog.speaker}}
+        <div class="text-danger">{{dialog.speaker}} : {{dialog.content}} </div>
+      {{else}}
+        {{dialog.speaker}} : {{dialog.content}}
+      {{/if}}
+    </span>
   </li>
 </template>
