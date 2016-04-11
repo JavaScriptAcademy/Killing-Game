@@ -86,8 +86,9 @@ Template.Vote.onCreated(function createVote() {
     let chatroom = Chatrooms.findOne({});
     if(chatroom){
       let playerList = chatroom.playerList;
+      debugger;
       if(this.allRoleDead(playerList,'citizen')
-        ||tshi.allRoleDead(playerList,'police')){
+        ||this.allRoleDead(playerList,'police')){
         return true;
       }
     };
@@ -121,7 +122,7 @@ Template.Vote.onCreated(function createVote() {
     function broadcastPlayers(players, role){
       let msg = '';
       players.forEach(function (player) {
-       msg += player.username+' ';
+       msg += player.username+',';
      });
       Meteor.call('dialogs.insert', '', 'System', 'The '+role+' are--- '+msg);
     };
@@ -140,9 +141,21 @@ Template.Vote.helpers({
       return '';
     }
   },
-  // scores(){
-  //   return Scores.find({}).fetch();
-  // },
+  message(){
+    const instance = Template.instance();
+    if(instance.getCurrentUserRole() === 'police'){
+      let result = Session.get('checkout');
+      if(result&& result!==''){
+        Meteor.setTimeout(() => {
+          instance.setDefaultStatus();
+          Meteor.call('chatrooms.setTime','day');
+          Session.set('checkout','');
+        }, 8000);
+        return result;
+      }
+    }
+    return '';
+  },
   playerScore(playerName){
    let score = '';
    if(Chatrooms.findOne({})&&Meteor.user()){
@@ -206,16 +219,22 @@ Template.Vote.events({
 
         let suspect = Scores.find({section:currentUserRole},{ sort: { score: -1 } }).fetch();
         console.log('get highest score of police checkout', suspect[0].username);
-        //TODO： show check result to police
 
+        let players = Chatrooms.findOne({}).playerList;
+        let suspectPlayer = players.filter((player) => {
+          return player.username === suspect[0].username;
+        });
+        // Meteor.call('dialogs.insert','','Checkout',suspect[0].username+' is checked. He is a '+suspectPlayer[0].role);
+        if(instance.getCurrentUserRole() === 'police'){
+          console.log(suspectPlayer[0].username+' is checked. He(She) is a '+suspectPlayer[0].role);
+        }
         let victim = Scores.find({section:'murderer'},{ sort: { score: -1 } }).fetch();
         Meteor.call('chatrooms.setPlayerStatus', victim[0].username, 'status', 'victim');
-        Meteor.call('dialogs.insert','','System',victim[0].username+' is killed by murderers.');
-
-        instance.setDefaultStatus();
-        Meteor.call('chatrooms.setTime','day');
+        Meteor.call('dialogs.insert','','System','Night ends. '+victim[0].username+' is killed by murderers.');
+        Session.set('checkout',suspectPlayer[0].username+' is checked. He(She) is a '+suspectPlayer[0].role);
       }
     }
+
     //check whether game is over
     if(instance.isGameOver()){
       instance.gameOver();
@@ -230,6 +249,7 @@ Tracker.autorun(function () {
     let status = chatroom.roomStatus;
     if(status === 'dialog' || status === 'over'){
       Router.go('/');
+      Session.set("startTimer", true);
     }
   }
 });

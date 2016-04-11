@@ -15,7 +15,6 @@ Template.Body.onCreated(function bodyOnCreated() {
   this.autorun(() => {
     Meteor.subscribe('chatrooms');
   });
-
 });
 
 Template.Body.helpers({

@@ -1,11 +1,6 @@
 <TEMPLATE name="Body">
   <div class="container">
     <header>
-      <script>
-        $('[data-spy="scroll"]').each(function () {
-          var $spy = $(this).scrollspy('refresh')
-        })
-      </script>
       <h1 class="col-md-offset-4">{{chatroom.roomName}}</h1>
       {{> loginButtons align="right"}}
     </header>

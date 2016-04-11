@@ -9,14 +9,14 @@ Template.ImportantEvent.onCreated(function eventCreated(){
   this.autorun(() => {
     Meteor.subscribe('onlineusers');
   });
-  countdown = new ReactiveCountdown(30);
-  countdown.start(function() {
-    console.log('time ends');
-    let time = Chatrooms.findOne({}).gameTime;
-    if(time === 'day'){
-      Meteor.call('chatrooms.setStatus','vote');
-    }
-  });
+  // countdown = new ReactiveCountdown(30);
+  // countdown.start(function() {
+  //   console.log('time ends');
+  //   let time = Chatrooms.findOne({}).gameTime;
+  //   if(time === 'day'){
+  //     Meteor.call('chatrooms.setStatus','vote');
+  //   }
+  // });
 });
 
 Template.ImportantEvent.onRendered(function listsShowPageOnRendered() {
@@ -111,4 +111,20 @@ Tracker.autorun(function () {
       }
     }
   }
+});
+
+Tracker.autorun(function () {
+  let startFlag = Session.get('startTimer');
+  if(startFlag){
+    countdown = new ReactiveCountdown(120);
+    countdown.start(function() {
+    console.log('time ends');
+    let time = Chatrooms.findOne({}).gameTime;
+    if(time === 'day'){
+      Meteor.call('chatrooms.setStatus','vote');
+      let startFlag = Session.set('startTimer',false);
+    }
+  });
+  };
+
 });

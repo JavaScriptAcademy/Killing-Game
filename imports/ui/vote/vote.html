@@ -12,6 +12,11 @@
       </a>
       {{/each}}
     </div>
+    {{#if message}}
+    <div class="alert alert-danger" role="alert">
+      {{message}}
+    </div>
+    {{/if}}
     <button class="click-vote">Vote</button>
   </div>
 </TEMPLATE>
